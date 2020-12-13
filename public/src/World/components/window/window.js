@@ -6,11 +6,8 @@ import { setupModel } from './setupModel.js';
 import { createRectLight } from '../lights.js';
 
 import {
-    BoxBufferGeometry,
     MathUtils,
-    Mesh,
     MeshStandardMaterial,
-    TextureLoader,
 } from '../../../../vendor/three/build/three.module.js';
 
 async function createWindow(colour) {
@@ -24,15 +21,8 @@ async function createWindow(colour) {
     ]);
 
     const objs = [win, sofa, bed, table]
-
-    // console.log('window!', win);
-    // console.log('sofa!', sofa)
-
     objs.forEach(o => {
         o.children.forEach(child => {
-            // child.material = new MeshStandardMaterial({
-            //     color: 0xffffff,
-            // });
             child.material = new MeshStandardMaterial()
         })
     })
@@ -55,18 +45,6 @@ async function createWindow(colour) {
     const { rectLight, rectLight2 } = createRectLight(2, 4, colour);
     win.add(rectLight)
     win.add(rectLight2)
-
-
-
-
-    // const window = setupModel(windowData);
-    // window.position.set(0, 0, 2.5);
-
-
-    // return {
-    //     windowData,
-    //     sofaData
-    // }
     return { win, sofa, bed, table }
 }
 

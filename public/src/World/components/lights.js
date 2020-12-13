@@ -10,9 +10,6 @@ function createLights() {
   // light.castShadow = true;
   // light.shadowDarkness = 0.5;
   // light.shadowCameraVisible = true;
-
-
-
   //direct light pos
   // light.position.set(1, 1, 1);
 
@@ -37,7 +34,7 @@ function createBulbLight() {
 
 
 function createRectLight(width, height, color) {
-  let colour = (color !== undefined) ? color : 'white';
+  let colour = (color !== undefined) ? color : 'indigo';
   const rectLight = new RectAreaLight(colour, 10, -width / 2, height)
   const rectLight2 = new RectAreaLight(colour, 10, width / 2, height)
   // rectLight.castShadow = true;

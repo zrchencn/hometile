@@ -78,6 +78,7 @@ function createBulb() {
     bulb.receiveShadow = true
 
     const light = createBulbLight()
+    light.name = 'light'
     bulb.add(light)
 
     return bulb;

@@ -43,9 +43,6 @@ function createCubes() {
     // geometry.translate(0.5, 0.5, 0.5)
     const material = createMaterial();
 
-
-
-
     for (let i = 0; i < num; ++i) {
         const cube = new Mesh(geometry, material);
         // cube.position.set(rand(0, 10) + 0.5, rand(0, 10) + 0.5, rand(0, 10) + 0.5)
