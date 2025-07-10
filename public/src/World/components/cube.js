@@ -6,6 +6,8 @@ import {
   TextureLoader,
 } from '../../../vendor/three/build/three.module.js';
 
+const radiansPerSecond = MathUtils.degToRad(30);
+
 function createMaterial() {
   // create a texture loader.
   const textureLoader = new TextureLoader();

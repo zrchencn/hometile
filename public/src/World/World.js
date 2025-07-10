@@ -19,6 +19,7 @@ import { Loop } from './systems/Loop.js';
 import { createRaycaster } from './systems/Picker.js'
 import { Vector2, MathUtils, Color, Vector3 } from '../../../vendor/three/build/three.module.js';
 import { GUI } from './../../vendor/three/examples/jsm/libs/dat.gui.module.js'
+import { movePositionBy, getSelectedBound, getBoundFurniture } from './utils/index.js';
 
 let camera;
 let renderer;
@@ -84,7 +85,7 @@ class World {
         }
         )
 
-        const { xMin, yMin, zMin, xMax, yMax, zMax } = getSelectedBound()
+        const { xMin, yMin, zMin, xMax, yMax, zMax } = getSelectedBound(objects)
         // console.log(objects)
         // console.log('max:', xMax, yMax, zMax)
         // console.log('min:', xMin, yMin, zMin)
@@ -131,7 +132,7 @@ class World {
 
     const mods = {
       remove: function () {
-        let furs = getBoundFurniture()
+        let furs = getBoundFurniture(objects)
         furs.forEach(f => {
           objects = objects.filter(ele => ele.uuid !== f.uuid)
           scene.remove(f)
@@ -161,19 +162,19 @@ class World {
     const modFolder = gui.addFolder('Furniture')
     modFolder.add(mods, 'remove')
     modFolder.add(mods, 'rotateY', 0, 360, 0.2).onChange(function () {
-      let furs = getBoundFurniture()
+      let furs = getBoundFurniture(objects)
       furs.forEach(f => {
         f.rotation.y = MathUtils.degToRad(mods.rotateY)
       })
     })
     modFolder.add(mods, 'rotateX', 0, 360, 0.2).onChange(function () {
-      let furs = getBoundFurniture()
+      let furs = getBoundFurniture(objects)
       furs.forEach(f => {
         f.rotation.x = MathUtils.degToRad(mods.rotateX)
       })
     })
     modFolder.add(mods, 'rotateZ', 0, 360, 0.2).onChange(function () {
-      let furs = getBoundFurniture()
+      let furs = getBoundFurniture(objects)
       furs.forEach(f => {
         f.rotation.z = MathUtils.degToRad(mods.rotateZ)
       })
@@ -347,50 +348,4 @@ function onDocumentMouseDown(event) {
 
 
 
-function movePositionBy(obj, x, y, z) {
-  obj.position.set(obj.position.x + x, obj.position.y + y, obj.position.z + z)
-}
-
-function getSelectedBound() {
-  let first = true
-  let xMin, yMin, zMin, xMax, yMax, zMax
-  objects.forEach(o => {
-
-    if (o.name.includes('selected')) {
-      if (first) {
-        xMax = o.position.x
-        xMin = o.position.x
-        yMin = o.position.y
-        yMax = o.position.y
-        zMin = o.position.z
-        zMax = o.position.z
-        first = false
-      }
-      xMax = Math.max(xMax, o.position.x)
-      yMax = Math.max(yMax, o.position.y)
-      zMax = Math.max(zMax, o.position.z)
-      xMin = Math.min(xMin, o.position.x)
-      yMin = Math.min(yMin, o.position.y)
-      zMin = Math.min(zMin, o.position.z)
-    }
-  })
-  return { xMin, yMin, zMin, xMax, yMax, zMax }
-}
-
-function getBoundFurniture() {
-  let arr = []
-  const { xMin, yMin, zMin, xMax, yMax, zMax } = getSelectedBound()
-  objects.forEach(o => {
-    // console.log('xMin', 'yMin', 'zMin', 'xMax', 'yMax', 'zMax', xMin, yMin, zMin, xMax, yMax, zMax)
-    // console.log('furniture', o)
-    if (o.name.includes('furniture')) {
-      if ((o.position.x >= xMin && o.position.x <= xMax) && (o.position.z >= (zMin - 0.3) && o.position.z <= (zMax + 0.3))
-        && (o.position.y >= (yMin - 0.6) && o.position.y <= (yMax + 0.6))
-      ) {
-        arr.push(o)
-      }
-    }
-  })
-  return arr
-}
 export { World };
