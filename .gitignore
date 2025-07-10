@@ -4,6 +4,7 @@
 
 # ignore libraries
 node_modules
+coverage
 
 # ignore build files
 # build
